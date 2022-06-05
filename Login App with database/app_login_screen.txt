@@ -1,0 +1,157 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screens/Diary_signup.dart';
+import 'package:flutter_application_1/Screens/diary_details.dart';
+import 'package:flutter_application_1/db/diary_database.dart';
+
+class DiaryLogin extends StatefulWidget {
+  static const String routename = '/loginScreen';
+  const DiaryLogin({Key? key}) : super(key: key);
+
+  @override
+  State<DiaryLogin> createState() => _DiaryLoginState();
+}
+
+class _DiaryLoginState extends State<DiaryLogin> {
+  var unameController = TextEditingController();
+  var passwdController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.only(top: 50, bottom: 18),
+        child: ListView(
+          children: [
+            Column(
+              children: const [
+                SizedBox(
+                  height: 80,
+                ),
+                Text(
+                  'Diary Login',
+                  style: TextStyle(
+                      fontSize: 35,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 79, 67, 29),
+                      letterSpacing: 2.0),
+                ),
+                SizedBox(
+                  height: 60,
+                ),
+                // Image.network(
+                //   'https://previews.123rf.com/images/sergeypykhonin/sergeypykhonin1809/sergeypykhonin180900041/108230283-registrierung-logo-oder-label-registrieren-tagebuch-notizsymbol-vektorillustration.jpg',
+                //   height: 150,
+                //   width: 150,
+                // ),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: TextField(
+                controller: unameController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  labelText: 'User Name',
+                  hintText: 'Enter your User Name',
+                  labelStyle: const TextStyle(fontSize: 20),
+                  icon: const Icon(
+                    Icons.person,
+                    color: Colors.brown,
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: TextField(
+                controller: passwdController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  hintText: 'Enter Password',
+                  labelStyle: const TextStyle(fontSize: 20),
+                  icon: const Icon(
+                    Icons.lock,
+                    color: Colors.brown,
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ButtonTheme(
+                  height: 35,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      var username = unameController.text;
+                      var password = passwdController.text;
+                      var result = await AppDairyDatabase.instance
+                          .validateUser(username, password);
+
+                      if (result) {
+                        Navigator.pushNamed(context, dirayDetails.routeName);
+                      } else {
+                        const AlertDialog(
+                          semanticLabel: 'UserName already taken!!!',
+                        );
+                      }
+                    },
+                    child: const Text('Login'),
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 128, 104, 18),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 10),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Expanded(
+                    child: Text('New Users? Sign Up here'),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Expanded(
+                    child: ButtonTheme(
+                      height: 5,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, DairySignUpPage.routeName);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color.fromARGB(255, 128, 104, 18),
+                        ),
+                        child: const Text('Sign Up'),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screens/Diary_signup.dart';
+import 'package:flutter_application_1/Screens/diary_details.dart';
+import 'package:flutter_application_1/Screens/diary_login.dart';
+
+void main() {
+  runApp(
+    const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: NavigationDemoApp(),
+    ),
+  );
+}
+
+class NavigationDemoApp extends StatelessWidget {
+  const NavigationDemoApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: DiaryLogin.routename,
+      routes: {
+        DiaryLogin.routename: (context) => const DiaryLogin(),
+        dirayDetails.routeName: (context) => const dirayDetails(),
+        DairySignUpPage.routeName: (context) => const DairySignUpPage()
+      },
+    );
+  }
+}
